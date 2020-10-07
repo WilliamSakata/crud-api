@@ -1,25 +1,22 @@
 const UserModels = require('../models/user')
-const userModels = new UserModels()
 
 class User {
   bindSchema(usuario) {
     return new Promise((resolve, reject) => {
       try {
-        let schema = require('schemaJSON').user
-
+        let schema = require('../schemas.json').user
         schema.firstName = usuario.nome
         schema.lastName = usuario.sobrenome
         schema.email = usuario.email
         schema.password = usuario.senha
         schema.sexo = usuario.sexo
-        schema.idade = usuario.idade.replace(/\D/g, '')
+        schema.idade = usuario.idade
         schema.hobby = usuario.hobby
-        schema.dataNascimento = usuario.dataNascimento
         schema.cpf = usuario.cpf.replace(/\D/g, '')
 
         resolve(schema)
       } catch (error) {
-        reject(`Formato do body não correto`)
+        reject(`Formato do body não correto ${error}`)
       }
     })
   }
@@ -27,12 +24,12 @@ class User {
   create(usuario) {
     return new Promise((resolve, reject) => {
       try {
-        userModels.create(usuario)
-          .then(user => resolve.status(200).send(`User ${JSON.stringify(user)} created successfully`))
+        UserModels.create(usuario)
+          .then(user => resolve(`User ${JSON.stringify(user)} created successfully`))
           .catch(error => reject(error))
 
       } catch (error) {
-        reject.error(400).send(error)
+        reject(error)
       }
     })
   }
@@ -40,8 +37,8 @@ class User {
   delete(usuario) {
     return new Promise((resolve, reject) => {
       try {
-        userModels.delete(usuario)
-          .then(user => resolve.status(200).send(`User ${JSON.stringify(user)} deleted successfully`))
+        UserModels.delete(usuario)
+          .then(user => resolve(`User ${JSON.stringify(user)} deleted successfully`))
           .catch(error => reject(error))
       } catch (error) {
 
@@ -52,7 +49,7 @@ class User {
   findAll() {
     return new Promise((resolve, reject) => {
       try {
-        userModels.find({})
+        UserModels.find({})
           .then(usersList => resolve(usersList))
           .catch(error => reject(error))
       } catch (error) {
@@ -64,8 +61,8 @@ class User {
   findByCPF(cpf) {
     return new Promise((resolve, reject) => {
       try {
-        userModels.findOne({ cpf: cpf })
-          .then(user => resolve(user ? user.count : null))
+        UserModels.findOne({ cpf: cpf })
+          .then(user => resolve(user))
           .catch(error => reject(error))
 
       } catch (error) {
@@ -77,7 +74,7 @@ class User {
   findByName(name) {
     return new Promise((resolve, reject) => {
       try {
-        userModels.find({ name: {$regex: new RegExp(name), $options: 'i'} })
+        UserModels.find({ name: {$regex: new RegExp(name), $options: 'i'} })
           .then(user => resolve(user))
           .catch(error => reject(error))
 
@@ -90,8 +87,8 @@ class User {
   update(usuario) {
     return new Promise((resolve, reject) => {
       try {
-        userModels.updateOne(usuario)
-          .then((response) => resolve.status(200).send(`User ${JSON.stringify(response)} updated successfully`))
+        UserModels.updateOne(usuario)
+          .then((response) => resolve(`User ${JSON.stringify(response)} updated successfully`))
           .catch((error) => reject(error))
       } catch (error) {
         reject(error)

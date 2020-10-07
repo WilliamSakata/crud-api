@@ -1,19 +1,12 @@
 {
   "user": {
-    "name": [
-      "first": "",
-      "last": ""
-    ],
+    "firstName": "",
+    "lastName": "",
     "email": "",
     "password": "",
     "sexo": "",
     "idade": "",
     "hobby": "",
-    "dataNascimento": "",
-    "cpf": "",
-    "createdAt": {
-      "type": "Date",
-      "default": "Date.now"
-    }
+    "cpf": ""
   }
 }

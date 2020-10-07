@@ -26,7 +26,13 @@ class User {
     return new Promise(async (resolve, reject) => {
       try {
         userService.findAll()
-          .then(usersList => resolve(usersList))
+          .then(usersList => {
+            console.log(usersList.length)
+            if(usersList.length >= 0)
+              resolve(usersList)
+            else
+              resolve(`No users found`)
+          })
           .catch(error => reject(error))
 
       } catch (error) {
@@ -56,7 +62,7 @@ class User {
         let usuarioCadastrado = await userService.findByCPF(userSchema.cpf)
 
         if (usuarioCadastrado)
-          reject.status(400).send('User already exists.')
+          reject('User already exists.')
         else {
           userService.create(userSchema)
             .then((response) => resolve.status(response))
@@ -64,7 +70,7 @@ class User {
         }
 
       } catch (error) {
-        reject.error(400).send(error)
+        reject(error)
       }
     })
   }

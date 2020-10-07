@@ -48,7 +48,7 @@ router.post('/register', async (req, res) => {
         res.status(200).send('User created')
       })
       .catch(error => {
-        res.status(400).send({ error: `Registration failed with error: ${error}` })
+        res.status(400).send({ error: `${error}` })
       })
   } catch (error) {
     return res.status(400).send({ error: `Registration failed ${error}` })

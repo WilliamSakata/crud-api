@@ -9,4 +9,13 @@ app.use(bodyParser.json());
 
 require('./routes/user.js')(app)
 
-app.listen(3000)
+app.get('/', (req, res) => {
+  res.status(200).send({
+    title: 'Tudo ok por enquanto',
+    version: '1.0.0'
+  })
+})
+
+app.listen(3000, () => {
+  console.log(`API Crud is listening on port 3000`)
+})
